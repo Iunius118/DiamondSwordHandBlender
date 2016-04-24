@@ -1,12 +1,14 @@
 package iunius118.mods.dshandblender;
 
+import iunius118.mods.dshandblender.DiamondSwordHandBlenderCore.Renderers;
 import iunius118.mods.dshandblender.client.model.ModelDiamondSwordHandBlender;
 import iunius118.mods.dshandblender.client.renderer.RenderDiamondSwordHandBlender;
 import iunius118.mods.dshandblender.client.renderer.RenderFactoryDiamondSwordShot;
 import iunius118.mods.dshandblender.entity.EntityDiamondSwordShot;
-import iunius118.mods.dshandblender.item.ItemDiamondSwordHandBlender;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.item.Item;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.ModelBakeEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -26,28 +28,26 @@ public class DiamondSwordHandBlenderRegistry {
 	}
 
 	public static void registerItems() {
-		GameRegistry.register(Items.itemDSHandBlender);
-	}
+		GameRegistry.register(DiamondSwordHandBlenderCore.Items.itemDSHandBlender);
 
-	public static class Items {
-		private static String NAME_ITEM_DS_HAND_BLENDER = "ds_hand_blender";
-
-		public static Item itemDSHandBlender = new ItemDiamondSwordHandBlender().setRegistryName(NAME_ITEM_DS_HAND_BLENDER).setUnlocalizedName(NAME_ITEM_DS_HAND_BLENDER);
+		GameRegistry.addRecipe(new ItemStack(DiamondSwordHandBlenderCore.Items.itemDSHandBlender),
+				"DND",
+				"DOD",
+				" P ",
+				'D', Items.diamond_sword,
+				'N', Items.nether_star,
+				'O', Blocks.obsidian,
+				'P', Blocks.sticky_piston);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static void registerItemModels() {
-		ModelLoader.setCustomModelResourceLocation(Items.itemDSHandBlender, 0, ModelLocations.modelItemDSHandBlender);
+		ModelLoader.setCustomModelResourceLocation(DiamondSwordHandBlenderCore.Items.itemDSHandBlender, 0, ModelLocations.modelItemDSHandBlender);
 	}
 
 	@SideOnly(Side.CLIENT)
 	public static class ModelLocations {
-		public static ModelResourceLocation modelItemDSHandBlender = new ModelResourceLocation(Items.itemDSHandBlender.getRegistryName(), "inventory");
-	}
-
-	public static class Renderers {
-		public static RenderDiamondSwordHandBlender renderDiamondSwordHandBlender;
-		public static RenderFactoryDiamondSwordShot renderDiamondSwordShot;
+		public static ModelResourceLocation modelItemDSHandBlender = new ModelResourceLocation(DiamondSwordHandBlenderCore.Items.itemDSHandBlender.getRegistryName(), "inventory");
 	}
 
 	@SideOnly(Side.CLIENT)

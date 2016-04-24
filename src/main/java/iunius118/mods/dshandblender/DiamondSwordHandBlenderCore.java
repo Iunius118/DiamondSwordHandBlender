@@ -1,6 +1,10 @@
 package iunius118.mods.dshandblender;
 
 import iunius118.mods.dshandblender.client.ClientEventHandler;
+import iunius118.mods.dshandblender.client.renderer.RenderDiamondSwordHandBlender;
+import iunius118.mods.dshandblender.client.renderer.RenderFactoryDiamondSwordShot;
+import iunius118.mods.dshandblender.item.ItemDiamondSwordHandBlender;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -45,6 +49,17 @@ public class DiamondSwordHandBlenderCore {
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
 
+	}
+
+	public static class Items {
+		private static String NAME_ITEM_DS_HAND_BLENDER = "ds_hand_blender";
+
+		public static Item itemDSHandBlender = new ItemDiamondSwordHandBlender().setRegistryName(NAME_ITEM_DS_HAND_BLENDER).setUnlocalizedName(NAME_ITEM_DS_HAND_BLENDER);
+	}
+
+	public static class Renderers {
+		public static RenderDiamondSwordHandBlender renderDiamondSwordHandBlender;
+		public static RenderFactoryDiamondSwordShot renderDiamondSwordShot;
 	}
 
 }
