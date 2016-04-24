@@ -27,20 +27,27 @@ public class RenderDiamondSwordHandBlender {
 	public void doRender(ModelDiamondSwordHandBlender model) {
 		VertexBuffer renderer = Tessellator.getInstance().getBuffer();
 
+		switch (model.cameraTransformType) {
+		case FIRST_PERSON_LEFT_HAND:
+		case FIRST_PERSON_RIGHT_HAND:
+			GlStateManager.translate(0F, -0.6F, -0.2F);
+			GlStateManager.rotate(10.0F, 1.0F, 0.0F, 0.0F);
+			break;
 
-		if (model.isAnimated) {
-			if (model.isFirstPerson) {
-				GlStateManager.translate(0F, -0.6F, -0.2F);
-				GlStateManager.rotate(10.0F, 1.0F, 0.0F, 0.0F);
-			} else {
-				GlStateManager.translate(0.1F, -0.4F, -0.2F);
-				GlStateManager.rotate(40.0F, -1.0F, 0.0F, 0.0F);
-				GlStateManager.rotate(25.0F, 0.0F, 0.0F, -1.0F);
-			}
-		} else {
+		case THIRD_PERSON_LEFT_HAND:
+		case THIRD_PERSON_RIGHT_HAND:
+			GlStateManager.translate(0.1F, -0.4F, -0.2F);
+			GlStateManager.rotate(40.0F, -1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(25.0F, 0.0F, 0.0F, -1.0F);
+			break;
+
+		case GUI:
+			GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
+		default:
 			GlStateManager.rotate(45.0F, 0.0F, 0.0F, 1.0F);
 			GlStateManager.scale(0.45F, 0.45F, 0.45F);
-			GlStateManager.translate(0.0F, -0.5F, 0.0F);
+			GlStateManager.translate(0.0F, -0.6F, 0.0F);
+			break;
 		}
 
 		renderHandle(model, renderer);

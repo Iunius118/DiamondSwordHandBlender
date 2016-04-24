@@ -1,6 +1,6 @@
 package iunius118.mods.dshandblender.client.model;
 
-import iunius118.mods.dshandblender.DiamondSwordHandBlenderRegistry;
+import iunius118.mods.dshandblender.DiamondSwordHandBlenderCore.Renderers;
 
 import java.util.Collections;
 import java.util.List;
@@ -37,23 +37,26 @@ import org.lwjgl.opengl.GL11;
 public class ModelDiamondSwordHandBlender implements IPerspectiveAwareModel {
 
 	public IBakedModel modelOriginal;
+	public ItemStack itemStack;
+	public World world;
+	public EntityLivingBase entity;
+	public TransformType cameraTransformType;
 	public float rotationHead;
-	public boolean isAnimated;
-	public boolean isFirstPerson;
 
-	public ModelDiamondSwordHandBlender(IBakedModel modelGUIIn) {
-		this(modelGUIIn, true, false);
+	public ModelDiamondSwordHandBlender(IBakedModel bakedModelIn) {
+		this(bakedModelIn, null, null, null);
 	}
 
-	public ModelDiamondSwordHandBlender(IBakedModel modelGUIIn, float angleRotation, boolean isFirsePersonView) {
-		this(modelGUIIn, true, isFirsePersonView);
-		rotationHead = angleRotation;
-	}
+	public ModelDiamondSwordHandBlender(IBakedModel bakedModelIn, ItemStack itemStackIn, World worldIn, EntityLivingBase entityLivingBaseIn) {
+		if (bakedModelIn instanceof ModelDiamondSwordHandBlender) {
+			modelOriginal = ((ModelDiamondSwordHandBlender)bakedModelIn).modelOriginal;
+		} else {
+			modelOriginal = bakedModelIn;
+		}
 
-	public ModelDiamondSwordHandBlender(IBakedModel modelGUIIn, boolean isAnimatedModel, boolean isFirsePersonView) {
-		modelOriginal = modelGUIIn;
-		isFirstPerson = isFirsePersonView;
-		isAnimated = isAnimatedModel;
+		itemStack = itemStackIn;
+		world = worldIn;
+		entity = entityLivingBaseIn;
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class ModelDiamondSwordHandBlender implements IPerspectiveAwareModel {
 			Tessellator.getInstance().draw();
 			GlStateManager.popMatrix();
 
-			DiamondSwordHandBlenderRegistry.Renderers.renderDiamondSwordHandBlender.doRender(this);
+			Renderers.renderDiamondSwordHandBlender.doRender(this);
 
 			GlStateManager.pushMatrix();
 			renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
@@ -103,47 +106,25 @@ public class ModelDiamondSwordHandBlender implements IPerspectiveAwareModel {
 	}
 
 	@Override
-	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType cameraTransformType) {
+	public Pair<? extends IBakedModel, Matrix4f> handlePerspective(TransformType transformTypeIn) {
+		cameraTransformType = transformTypeIn;
+
 		Matrix4f matrix;
 
 		if (modelOriginal != null && modelOriginal instanceof IPerspectiveAwareModel) {
-			matrix = ((IPerspectiveAwareModel) modelOriginal).handlePerspective(cameraTransformType).getValue();
+			matrix = ((IPerspectiveAwareModel) modelOriginal).handlePerspective(transformTypeIn).getValue();
 		} else {
 			matrix = TRSRTransformation.identity().getMatrix();
 		}
 
-		switch (cameraTransformType) {
-		case THIRD_PERSON_LEFT_HAND:
-		case THIRD_PERSON_RIGHT_HAND:
-			isFirstPerson = false;
-			return Pair.of(this, matrix);
+		float rotation = 0.0F;
 
+		switch (transformTypeIn) {
 		case FIRST_PERSON_LEFT_HAND:
 		case FIRST_PERSON_RIGHT_HAND:
-			isFirstPerson = true;
-			return Pair.of(new ModelDiamondSwordHandBlender(modelOriginal, rotationHead, true), matrix);
-
-		default:
-			return Pair.of(new ModelDiamondSwordHandBlender(modelOriginal, false, false), matrix);
-		}
-	}
-
-	public class DiamondSwordHandBlenderItemOverrideList extends ItemOverrideList {
-
-		public DiamondSwordHandBlenderItemOverrideList() {
-			super(Collections.EMPTY_LIST);
-		}
-
-		@Override
-		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
-			ModelDiamondSwordHandBlender model = (ModelDiamondSwordHandBlender)originalModel;
-
-			if (!model.isAnimated) {
-				return model;
-			}
-
-			NBTTagCompound tag = stack.getTagCompound();
-			float rotation = 0.2F;
+		case THIRD_PERSON_LEFT_HAND:
+		case THIRD_PERSON_RIGHT_HAND:
+			NBTTagCompound tag = itemStack.getTagCompound();
 
 			if (tag != null) {
 				final float interval = 0.8F;
@@ -161,7 +142,7 @@ public class ModelDiamondSwordHandBlender implements IPerspectiveAwareModel {
 				}
 
 				if (entity instanceof EntityPlayer) {
-					float cooldown = ((EntityPlayer)entity).getCooldownTracker().getCooldown(stack.getItem(), 0.0F);
+					float cooldown = ((EntityPlayer)entity).getCooldownTracker().getCooldown(itemStack.getItem(), 0.0F);
 					speed += (cooldown == 0.0D ? 0 : cooldown + 0.5F);
 				}
 
@@ -171,10 +152,29 @@ public class ModelDiamondSwordHandBlender implements IPerspectiveAwareModel {
 				tag.setLong("renderTime", renderNanoTime);
 				tag.setFloat("rotation", rotation);
 			} else {
-				stack.setTagCompound(new NBTTagCompound());
+				itemStack.setTagCompound(new NBTTagCompound());
 			}
 
-			return new ModelDiamondSwordHandBlender(model.modelOriginal, rotation, model.isFirstPerson);
+			break;
+
+		default:
+			break;
+		}
+
+		rotationHead = rotation;
+
+		return Pair.of(this, matrix);
+	}
+
+	public class DiamondSwordHandBlenderItemOverrideList extends ItemOverrideList {
+
+		public DiamondSwordHandBlenderItemOverrideList() {
+			super(Collections.EMPTY_LIST);
+		}
+
+		@Override
+		public IBakedModel handleItemState(IBakedModel originalModel, ItemStack stack, World world, EntityLivingBase entity) {
+			return new ModelDiamondSwordHandBlender(originalModel, stack, world, entity);
 		}
 
 	}

@@ -1,6 +1,6 @@
 package iunius118.mods.dshandblender.client.renderer;
 
-import iunius118.mods.dshandblender.DiamondSwordHandBlenderRegistry;
+import iunius118.mods.dshandblender.DiamondSwordHandBlenderCore;
 import iunius118.mods.dshandblender.client.model.ModelDiamondSwordHandBlender;
 import iunius118.mods.dshandblender.entity.EntityDiamondSwordShot;
 
@@ -38,7 +38,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 
 		@Override
 		public void doRender(T entity, double x, double y, double z, float entityYaw, float partialTicks) {
-			if (entity.ticksExisted < 1) {
+			if (entity.ticksExisted < 2) {
 				return;
 			}
 
@@ -65,7 +65,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 
 			vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
 
-			ModelDiamondSwordHandBlender model = (ModelDiamondSwordHandBlender)mesher.getItemModel(new ItemStack(DiamondSwordHandBlenderRegistry.Items.itemDSHandBlender));
+			ModelDiamondSwordHandBlender model = (ModelDiamondSwordHandBlender)mesher.getItemModel(new ItemStack(DiamondSwordHandBlenderCore.Items.itemDSHandBlender));
 			List<BakedQuad> quads =	model.modelOriginal.getQuads(null, null, 0L);
 			int size = quads.size();
 
