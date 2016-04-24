@@ -53,9 +53,9 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 			GlStateManager.translate((float) x, (float) y, (float) z);
 			GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
 			GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
-	        GlStateManager.disableLighting();
-	        GlStateManager.enableBlend();
-	        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
+			GlStateManager.disableLighting();
+			GlStateManager.enableBlend();
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 
 			//GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			RenderHelper.disableStandardItemLighting();
@@ -85,7 +85,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 			tessellator.draw();
 
 			GlStateManager.disableBlend();
-	        GlStateManager.enableLighting();
+			GlStateManager.enableLighting();
 
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
 			RenderHelper.enableStandardItemLighting();
