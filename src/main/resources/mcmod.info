@@ -1,0 +1,16 @@
+[
+{
+  "modid": "dshandblender",
+  "name": "DiamondSwordHandBlender",
+  "description": "Adds Diamond Sword Hand Blender.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/Iunius118",
+  "updateUrl": "",
+  "authorList": ["Iunius118"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

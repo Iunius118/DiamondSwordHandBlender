@@ -1,0 +1,10 @@
+
+# Ignore all
+/*
+
+# Exclude source
+!/src/
+
+# Others
+!README.md
+!.gitignore
