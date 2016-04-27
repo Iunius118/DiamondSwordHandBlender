@@ -5,6 +5,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragon;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
@@ -22,7 +23,7 @@ import net.minecraft.world.World;
 public class ItemDiamondSwordHandBlender extends Item {
 
 	public ItemDiamondSwordHandBlender() {
-		setCreativeTab(CreativeTabs.tabCombat);
+		setCreativeTab(CreativeTabs.tabTools);
 		setMaxStackSize(1);
 		this.setFull3D();
 	}
@@ -43,10 +44,10 @@ public class ItemDiamondSwordHandBlender extends Item {
 			return  new ActionResult(EnumActionResult.PASS, itemStackIn);
 		}
 
-		if (!worldIn.isRemote) {
-			worldIn.playSound((EntityPlayer)null,  playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_generic_explode, SoundCategory.NEUTRAL, 0.5F, 0.4F);
-			worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_blaze_shoot, SoundCategory.NEUTRAL, 0.8F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound((EntityPlayer)null,  playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_generic_explode, SoundCategory.NEUTRAL, 0.5F, 0.4F);
+		worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_blaze_shoot, SoundCategory.NEUTRAL, 0.8F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
+		if (!worldIn.isRemote) {
 			EntityDiamondSwordShot entity = new EntityDiamondSwordShot(worldIn, playerIn);
 			worldIn.spawnEntityInWorld(entity);
 		}
@@ -96,7 +97,6 @@ public class ItemDiamondSwordHandBlender extends Item {
 		entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.entity_blaze_death, SoundCategory.NEUTRAL, 0.8F, 1.0F);
 
 		if (entityLiving instanceof EntityPlayer) {
-
 			setCooldown(stack, (EntityPlayer)entityLiving, 40, 40);
 		}
 
@@ -105,7 +105,14 @@ public class ItemDiamondSwordHandBlender extends Item {
 
 	@Override
 	public boolean hitEntity(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-		target.attackEntityFrom(DamageSource.causeMobDamage(attacker), 150.0F);
+		float damage = 150.0F;
+
+		if (target instanceof EntityDragon) {
+			((EntityDragon)target).dragonPartHead.attackEntityFrom(DamageSource.causeMobDamage(attacker), damage);
+		} else {
+			target.attackEntityFrom(DamageSource.causeMobDamage(attacker), damage);
+		}
+
 		return false;
 	}
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityDragonPart;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
@@ -50,7 +51,7 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 		this.motionY = prevMotionY;
 		this.motionZ = prevMotionZ;
 
-		if (!this.isDead && this.ticksExisted > 170) {
+		if (!this.isDead && this.ticksExisted > 50) {
 			onImpact(new RayTraceResult(this));
 		}
 
@@ -74,8 +75,12 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 	        List<Entity> list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.getThrower(), new AxisAlignedBB(x1, y1, z1, x2, y2, z2));
 
 			for(Entity entity : list) {
-				if (entity instanceof EntityLivingBase) {
-					int damage = 50;
+				float damage = 50.0F;
+
+				if (entity instanceof EntityDragonPart) {
+					entity.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.getThrower()), damage);
+
+				} else if (entity instanceof EntityLivingBase) {
 					entity.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.getThrower()), damage);
 				}
 			}
