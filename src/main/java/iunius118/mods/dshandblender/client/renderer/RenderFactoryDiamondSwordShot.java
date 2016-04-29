@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 
 import org.lwjgl.opengl.GL11;
@@ -70,8 +71,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 			int size = quads.size();
 
 			for (int i = 0; i < size; ++i) {
-				net.minecraftforge.client.model.pipeline.LightUtil
-						.renderQuadColor(vertexbuffer, quads.get(i), -1);
+				LightUtil.renderQuadColor(vertexbuffer, quads.get(i), -1);
 			}
 
 			GlStateManager.rotate(-45.0F, 0.0F, 0.0F, 1.0F);

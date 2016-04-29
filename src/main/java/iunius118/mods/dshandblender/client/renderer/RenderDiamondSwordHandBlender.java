@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraftforge.client.model.pipeline.LightUtil;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -73,7 +74,7 @@ public class RenderDiamondSwordHandBlender {
 			renderer.begin(GL11.GL_QUADS, DefaultVertexFormats.ITEM);
 
 			for (int j = 0; j < size; ++j) {
-				net.minecraftforge.client.model.pipeline.LightUtil.renderQuadColor(renderer, quads.get(j), -1);
+				LightUtil.renderQuadColor(renderer, quads.get(j), -1);
 			}
 
 			GlStateManager.scale(1.0F, 1.2F, 1.0F);
@@ -104,7 +105,7 @@ public class RenderDiamondSwordHandBlender {
 			int size = quads.size();
 
 			for (int i = 0; i < size; ++i) {
-				net.minecraftforge.client.model.pipeline.LightUtil.renderQuadColor(renderer, quads.get(i), -1);
+				LightUtil.renderQuadColor(renderer, quads.get(i), -1);
 			}
 
 		}
@@ -124,7 +125,7 @@ public class RenderDiamondSwordHandBlender {
 			int size = quads.size();
 
 			for (int i = 0; i < size; ++i) {
-				net.minecraftforge.client.model.pipeline.LightUtil.renderQuadColor(renderer, quads.get(i), -1);
+				LightUtil.renderQuadColor(renderer, quads.get(i), -1);
 			}
 
 		}
@@ -148,7 +149,7 @@ public class RenderDiamondSwordHandBlender {
 			int size = quads.size();
 
 			for (int i = 0; i < size; ++i) {
-				net.minecraftforge.client.model.pipeline.LightUtil.renderQuadColor(renderer, quads.get(i), -1);
+				LightUtil.renderQuadColor(renderer, quads.get(i), -1);
 			}
 
 		}
