@@ -23,8 +23,8 @@ public class DiamondSwordHandBlenderCore {
 
 	public static final String MOD_ID = "dshandblender";
 	public static final String MOD_NAME = "DiamondSwordHandBlender";
-	public static final String MOD_VERSION = "0.0.2";
-	public static final String MOD_DEPENDENCIES = "required-after:Forge@[1.9-12.16.0.1865,)";
+	public static final String MOD_VERSION = "0.0.3";
+	public static final String MOD_DEPENDENCIES = "required-after:Forge@[1.9-12.16.0.1887,)";
 	public static final String MOD_ACCEPTED_MC_VERSIONS = "[1.9]";
 
 	@SideOnly(Side.CLIENT)
@@ -52,7 +52,7 @@ public class DiamondSwordHandBlenderCore {
 	}
 
 	public static class Items {
-		private static String NAME_ITEM_DS_HAND_BLENDER = "ds_hand_blender";
+		private static final String NAME_ITEM_DS_HAND_BLENDER = "ds_hand_blender";
 
 		public static Item itemDSHandBlender = new ItemDiamondSwordHandBlender().setRegistryName(NAME_ITEM_DS_HAND_BLENDER).setUnlocalizedName(NAME_ITEM_DS_HAND_BLENDER);
 	}
