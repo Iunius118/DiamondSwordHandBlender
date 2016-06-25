@@ -58,7 +58,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 
-			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
+			//GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			RenderHelper.disableStandardItemLighting();
 			float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 			float lastBrightnessY = OpenGlHelper.lastBrightnessY;
@@ -89,7 +89,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
 			RenderHelper.enableStandardItemLighting();
-			GL11.glPopAttrib();
+			//GL11.glPopAttrib();
 
 			GlStateManager.disableRescaleNormal();
 			GlStateManager.enableLighting();
