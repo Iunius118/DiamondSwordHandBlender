@@ -96,6 +96,11 @@ public class RenderDiamondSwordHandBlender extends TileEntitySpecialRenderer<Til
 			break;
 
 		case THIRD_PERSON_LEFT_HAND:
+			GlStateManager.translate(-0.1F, -0.4F, -0.2F);
+			GlStateManager.rotate(40.0F, -1.0F, 0.0F, 0.0F);
+			GlStateManager.rotate(25.0F, 0.0F, 0.0F, 1.0F);
+			break;
+
 		case THIRD_PERSON_RIGHT_HAND:
 			GlStateManager.translate(0.1F, -0.4F, -0.2F);
 			GlStateManager.rotate(40.0F, -1.0F, 0.0F, 0.0F);
