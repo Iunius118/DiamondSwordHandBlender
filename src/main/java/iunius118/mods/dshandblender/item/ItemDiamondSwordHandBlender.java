@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 public class ItemDiamondSwordHandBlender extends Item {
 
 	public ItemDiamondSwordHandBlender() {
-		setCreativeTab(CreativeTabs.tabTools);
+		setCreativeTab(CreativeTabs.TOOLS);
 		setMaxStackSize(1);
 		this.setFull3D();
 	}
@@ -44,8 +44,8 @@ public class ItemDiamondSwordHandBlender extends Item {
 			return  new ActionResult(EnumActionResult.PASS, itemStackIn);
 		}
 
-		worldIn.playSound((EntityPlayer)null,  playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_generic_explode, SoundCategory.NEUTRAL, 0.5F, 0.4F);
-		worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.entity_blaze_shoot, SoundCategory.NEUTRAL, 0.8F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+		worldIn.playSound((EntityPlayer)null,  playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.5F, 0.4F);
+		worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_BLAZE_SHOOT, SoundCategory.NEUTRAL, 0.8F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 
 		if (!worldIn.isRemote) {
 			EntityDiamondSwordShot entity = new EntityDiamondSwordShot(worldIn, playerIn);
@@ -53,7 +53,7 @@ public class ItemDiamondSwordHandBlender extends Item {
 		}
 
 		setCooldown(itemStackIn, playerIn, 4, 5);
-		playerIn.addStat(StatList.func_188057_b(this));
+		playerIn.addStat(StatList.getObjectUseStats(this));
 
 		return new ActionResult(EnumActionResult.SUCCESS, itemStackIn);
 	}
@@ -88,13 +88,13 @@ public class ItemDiamondSwordHandBlender extends Item {
 				int swingTicks = tag.getInteger("swingTicks");
 
 				if (swingTicks == 0) {
-					entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.block_anvil_land, SoundCategory.NEUTRAL, 0.1F, 1.4F);
+					entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.BLOCK_ANVIL_LAND, SoundCategory.NEUTRAL, 0.1F, 1.4F);
 				}
 			}
 		}
 
-		entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.entity_irongolem_death, SoundCategory.NEUTRAL, 1.0F, 1.4F);
-		entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.entity_blaze_death, SoundCategory.NEUTRAL, 0.8F, 1.0F);
+		entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.ENTITY_IRONGOLEM_DEATH, SoundCategory.NEUTRAL, 1.0F, 1.4F);
+		entityLiving.worldObj.playSound((EntityPlayer)null, entityLiving.posX, entityLiving.posY, entityLiving.posZ, SoundEvents.ENTITY_BLAZE_DEATH, SoundCategory.NEUTRAL, 0.8F, 1.0F);
 
 		if (entityLiving instanceof EntityPlayer) {
 			setCooldown(stack, (EntityPlayer)entityLiving, 40, 40);

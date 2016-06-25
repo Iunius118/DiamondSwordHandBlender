@@ -27,7 +27,7 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 
 	public EntityDiamondSwordShot(World worldIn, EntityLivingBase throwerIn) {
 		super(worldIn, throwerIn);
-		func_184538_a(throwerIn, throwerIn.rotationPitch, throwerIn.rotationYaw, 0.0F, 3.0F, 0.0F);
+		setHeadingFromThrower(throwerIn, throwerIn.rotationPitch, throwerIn.rotationYaw, 0.0F, 3.0F, 0.0F);
 	}
 
 	public EntityDiamondSwordShot(World worldIn) {
@@ -62,7 +62,7 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 	protected void onImpact(RayTraceResult result) {
 
 		this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
-		this.worldObj.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.entity_generic_explode, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+		this.worldObj.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
 
 		if (!this.worldObj.isRemote) {
 			double range = 5.0D;
