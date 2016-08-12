@@ -23,7 +23,7 @@ public class DiamondSwordHandBlenderCore {
 
 	public static final String MOD_ID = "dshandblender";
 	public static final String MOD_NAME = "DiamondSwordHandBlender";
-	public static final String MOD_VERSION = "0.0.3";
+	public static final String MOD_VERSION = "0.0.4";
 	public static final String MOD_DEPENDENCIES = "required-after:Forge@[1.9.4-12.17.0.1976,)";
 	public static final String MOD_ACCEPTED_MC_VERSIONS = "[1.9.4,]";
 
