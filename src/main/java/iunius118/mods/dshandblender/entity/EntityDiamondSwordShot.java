@@ -5,15 +5,18 @@ import java.util.List;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityDragonPart;
+import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 public class EntityDiamondSwordShot extends EntityThrowable {
 
@@ -61,10 +64,10 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 	@Override
 	protected void onImpact(RayTraceResult result) {
 
-		this.worldObj.spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
-		this.worldObj.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
-
 		if (!this.worldObj.isRemote) {
+			((WorldServer)this.worldObj).spawnParticle(EnumParticleTypes.EXPLOSION_HUGE, true, this.posX, this.posY, this.posZ, 1, 0.0D, 0.0D, 0.0D, 0.0D, new int[0]);
+			this.worldObj.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.BLOCKS, 4.0F, (1.0F + (this.worldObj.rand.nextFloat() - this.worldObj.rand.nextFloat()) * 0.2F) * 0.7F);
+
 			double range = 5.0D;
 			double x1 = result.hitVec.xCoord - range;
 			double x2 = result.hitVec.xCoord + range;
@@ -80,6 +83,9 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 				if (entity instanceof EntityDragonPart) {
 					entity.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.getThrower()), damage);
 
+				} else if (entity instanceof EntityEnderman) {
+					entity.attackEntityFrom(DamageSource.causeExplosionDamage(this.getThrower()), damage);
+
 				} else if (entity instanceof EntityLivingBase) {
 					entity.attackEntityFrom(DamageSource.causeIndirectDamage(this, this.getThrower()), damage);
 				}
@@ -87,6 +93,20 @@ public class EntityDiamondSwordShot extends EntityThrowable {
 		}
 
 		this.setDead();
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound compound) {
+		super.writeEntityToNBT(compound);
+
+		compound.setInteger("ticksExisted", this.ticksExisted);
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+
+		this.ticksExisted = compound.getInteger("ticksExisted");
 	}
 
 }

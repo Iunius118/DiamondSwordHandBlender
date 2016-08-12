@@ -10,12 +10,12 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -45,21 +45,20 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 
 			Tessellator tessellator = Tessellator.getInstance();
 			VertexBuffer vertexbuffer = tessellator.getBuffer();
-			ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem()
-					.getItemModelMesher();
+			ItemModelMesher mesher = Minecraft.getMinecraft().getRenderItem().getItemModelMesher();
 
-			GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+			this.bindEntityTexture(entity);
+
 			GlStateManager.pushMatrix();
-			GlStateManager.disableLighting();
 			GlStateManager.translate((float) x, (float) y, (float) z);
 			GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
 			GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 0.0F, 0.0F, 1.0F);
+
 			GlStateManager.disableLighting();
 			GlStateManager.enableBlend();
 			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE);
 
-			//GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
-			RenderHelper.disableStandardItemLighting();
+			GL11.glPushAttrib(GL11.GL_LIGHTING_BIT);
 			float lastBrightnessX = OpenGlHelper.lastBrightnessX;
 			float lastBrightnessY = OpenGlHelper.lastBrightnessY;
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0F, 240.0F);
@@ -84,23 +83,21 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 
 			tessellator.draw();
 
-			GlStateManager.disableBlend();
-			GlStateManager.enableLighting();
-
 			OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, lastBrightnessX, lastBrightnessY);
-			RenderHelper.enableStandardItemLighting();
-			//GL11.glPopAttrib();
+			GL11.glPopAttrib();
 
-			GlStateManager.disableRescaleNormal();
+			GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 			GlStateManager.enableLighting();
+
 			GlStateManager.popMatrix();
+
 			super.doRender(entity, x, y, z, entityYaw, partialTicks);
 
 		}
 
 		@Override
 		protected ResourceLocation getEntityTexture(T entity) {
-			return null;
+	        return TextureMap.LOCATION_BLOCKS_TEXTURE;
 		}
 
 	}
