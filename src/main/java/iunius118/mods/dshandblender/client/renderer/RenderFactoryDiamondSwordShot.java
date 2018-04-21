@@ -97,7 +97,7 @@ public class RenderFactoryDiamondSwordShot<T extends EntityDiamondSwordShot> imp
 
 		@Override
 		protected ResourceLocation getEntityTexture(T entity) {
-	        return TextureMap.LOCATION_BLOCKS_TEXTURE;
+			return TextureMap.LOCATION_BLOCKS_TEXTURE;
 		}
 
 	}
